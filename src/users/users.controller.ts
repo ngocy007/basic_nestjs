@@ -10,24 +10,47 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import {
+  ApiUsers,
+  ApiCreateUser,
+  ApiGetAllUsers,
+  ApiGetUser,
+  ApiUpdateUser,
+  ApiDeleteUser,
+} from './decorators/api-users.decorator';
 
+@ApiUsers()
 @Controller('users')
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 
-  @Post() create(@Body() dto: CreateUserDto) {
+  @Post()
+  @ApiCreateUser()
+  create(@Body() dto: CreateUserDto) {
     return this.users.create(dto);
   }
-  @Get() findAll() {
+
+  @Get()
+  @ApiGetAllUsers()
+  findAll() {
     return this.users.findAll();
   }
-  @Get(':id') findOne(@Param('id') id: string) {
+
+  @Get(':id')
+  @ApiGetUser()
+  findOne(@Param('id') id: string) {
     return this.users.findOne(id);
   }
-  @Patch(':id') update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+
+  @Patch(':id')
+  @ApiUpdateUser()
+  update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return this.users.update(id, dto);
   }
-  @Delete(':id') remove(@Param('id') id: string) {
+
+  @Delete(':id')
+  @ApiDeleteUser()
+  remove(@Param('id') id: string) {
     return this.users.delete(id);
   }
 }
