@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import {
   HealthCheck,
   HealthCheckService,
@@ -7,7 +7,12 @@ import {
   MemoryHealthIndicator,
   DiskHealthIndicator,
 } from '@nestjs/terminus';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import {
+  ApiHealthCheck,
+  ApiHealthReady,
+  ApiHealthLive,
+} from '../decorators/health-swagger.decorator';
 
 @ApiTags('Health')
 @Controller('health')
@@ -22,12 +27,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  @ApiOperation({ summary: 'Check application health' })
-  @ApiResponse({ status: 200, description: 'Application is healthy' })
-  @ApiResponse({
-    status: 503,
-    description: 'Application is unhealthy',
-  })
+  @ApiHealthCheck()
   check() {
     return this.health.check([
       // Database health
@@ -46,15 +46,13 @@ export class HealthController {
   }
 
   @Get('ready')
-  @ApiOperation({ summary: 'Check if application is ready' })
-  @ApiResponse({ status: 200, description: 'Application is ready' })
+  @ApiHealthReady()
   ready() {
     return { status: 'ready', timestamp: new Date().toISOString() };
   }
 
   @Get('live')
-  @ApiOperation({ summary: 'Check if application is live' })
-  @ApiResponse({ status: 200, description: 'Application is live' })
+  @ApiHealthLive()
   live() {
     return { status: 'live', timestamp: new Date().toISOString() };
   }
