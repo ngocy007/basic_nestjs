@@ -1,0 +1,40 @@
+# ---- Line endings ----
+* text=auto eol=lf
+
+# ---- TypeScript / JavaScript ----
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.js   text eol=lf
+*.jsx  text eol=lf
+
+# ---- Config files ----
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.env   text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# ---- Prisma ----
+*.prisma text eol=lf
+*.sql    text eol=lf
+prisma/migrations/** -diff
+
+# ---- Lockfiles ----
+package-lock.json -diff
+yarn.lock         -diff
+pnpm-lock.yaml    -diff
+
+# ---- Binaries / Assets ----
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.svg text   # svg 
+
+# ---- Shell / Scripts ----
+*.sh  text eol=lf
+*.bash text eol=lf
